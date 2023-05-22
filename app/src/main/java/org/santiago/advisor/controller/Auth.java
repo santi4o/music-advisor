@@ -18,16 +18,21 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class Auth extends ControllerDecorator {
     private boolean authorized;
     private String code;
     private final String accessServerPoint;
-    private final String CLIENT_ID = "a2136de0b72049e5aefe2808e7d4ba09";
-    private final String CLIENT_SECRET = "5cc4633ce5b74c79afabd04da5f04138";
+    private final String CLIENT_ID;
+    private final String CLIENT_SECRET;
     private final Printer printer;
 
     public Auth(Controller controller, String accessServerPoint) {
         super(controller);
+        Dotenv dotenv = Dotenv.load();
+        CLIENT_ID = dotenv.get("CLIENT_ID");
+        CLIENT_SECRET = dotenv.get("CLIENT_SECRET");
         authorized = false;
         code = null;
         this.accessServerPoint = accessServerPoint;
